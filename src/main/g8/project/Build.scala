@@ -17,8 +17,8 @@
 
 import java.io._
 
-import scala.util.Properties
 import scala.collection.JavaConversions._
+import scala.util.Properties
 
 import sbt._
 import sbt.Classpaths.publishTask
@@ -32,10 +32,12 @@ import spray.revolver.RevolverPlugin._
 object BuildCommons {
 
   private val buildLocation = file(".").getAbsoluteFile.getParentFile
+  val testTempDir = buildLocation + "/target/tmp"
 
-  val assemblyProjects@Seq(assembly, examples, networkYarn, streamingKafkaAssembly) =
-    Seq("assembly", "examples", "network-yarn", "streaming-kafka-assembly")
-      .map(ProjectRef(buildLocation, _))
+  val allProjects @ Seq(core, examples) = 
+    Seq("core", "examples").map(ProjectRef(buildLocation, _))
+  val assemblyProjects @ Seq(assembly) =
+    Seq("assembly").map(ProjectRef(buildLocation, _))
 
 }
 
@@ -70,7 +72,7 @@ object MyBuild extends PomBuild {
     publishLocalBoth <<= Seq(publishLocal in MavenCompile, publishLocal).dependOn,
 
     javacOptions in (Compile, doc) ++= {
-      val Array(major, minor, _) = System.getProperty("java.version").split("\\.", 3)
+      val Array(major, minor, _) = System.getProperty("java.version").split("\\\\.", 3)
       if (major.toInt >= 1 && minor.toInt >= 8) Seq("-Xdoclint:all", "-Xdoclint:-missing") else Seq.empty
     },
 
@@ -84,11 +86,11 @@ object MyBuild extends PomBuild {
 
   // Note ordering of these settings matter.
   /* Enable shared settings on all projects */
-  (allProjects ++ optionallyEnabledProjects ++ assemblyProjects)
-    .foreach(enable(sharedSettings ++ ExludedDependencies.settings ++ Revolver.settings))
+  (allProjects ++ assemblyProjects)
+    .foreach(enable(sharedSettings ++ Revolver.settings))
 
   /* Enable tests settings for all projects except examples, assembly and tools */
-  (allProjects ++ optionallyEnabledProjects).foreach(enable(TestSettings.settings))
+  allProjects.foreach(enable(TestSettings.settings))
 
   /* Enable Assembly for all assembly projects */
   assemblyProjects.foreach(enable(Assembly.settings))
@@ -98,7 +100,7 @@ object MyBuild extends PomBuild {
     super.projectDefinitions(baseDirectory).map { x =>
       if (projectsMap.exists(_._1 == x.id)) x.settings(projectsMap(x.id): _*)
       else x.settings(Seq[Setting[_]](): _*)
-    } ++ Seq[Project](OldDeps.project)
+    }
   }
 
 }
@@ -115,7 +117,7 @@ object Assembly {
     mergeStrategy in assembly := {
       case PathList("org", "datanucleus", xs @ _*)             => MergeStrategy.discard
       case m if m.toLowerCase.endsWith("manifest.mf")          => MergeStrategy.discard
-      case m if m.toLowerCase.matches("meta-inf.*\\.sf")      => MergeStrategy.discard
+      case m if m.toLowerCase.matches("meta-inf.*\\\\.sf")      => MergeStrategy.discard
       case "log4j.properties"                                  => MergeStrategy.discard
       case m if m.toLowerCase.startsWith("meta-inf/services/") => MergeStrategy.filterDistinctLines
       case "reference.conf"                                    => MergeStrategy.concat
@@ -137,8 +139,6 @@ object TestSettings {
         (fullClasspath in Test).value.files.map(_.getAbsolutePath).mkString(":").stripSuffix(":"),
       "JAVA_HOME" -> sys.env.get("JAVA_HOME").getOrElse(sys.props("java.home"))),
     javaOptions in Test += s"-Djava.io.tmpdir=" + testTempDir,
-    javaOptions in Test += "-Dspark.test.home=" + sparkHome,
-    javaOptions in Test += "-Dspark.testing=1",
     javaOptions in Test += "-Dspark.port.maxRetries=100",
     javaOptions in Test += "-Dspark.ui.enabled=false",
     javaOptions in Test += "-Dspark.ui.showConsoleProgress=false",
