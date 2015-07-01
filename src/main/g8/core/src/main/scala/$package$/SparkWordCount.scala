@@ -23,7 +23,7 @@ object SparkWordCount {
     val inputFile = if (args.length > 1) args(1) else "pom.xml"
 
 
-    println(s"loading data from : ${new File(inputFile).getAbsolutePath}")
+    println(s"loading data from : \${new File(inputFile).getAbsolutePath}")
 
     val lineCount = sc.accumulator(0L)
     val wordCount = sc.accumulator(0L)
@@ -36,15 +36,15 @@ object SparkWordCount {
     }
 
     println("first try at printing accumulators: 0 because all transformations so far are lazy")
-    println(s"lineCount = ${lineCount.value}")
-    println(s"wordCount = ${wordCount.value}")
+    println(s"lineCount = \${lineCount.value}")
+    println(s"wordCount = \${wordCount.value}")
 
     val wordCountPairs: RDD[(String, Long)] = words.map{word => (word, 1L)}.reduceByKey{_ + _}
     wordCountPairs.cache()
 
     println("second try at printing accumulators: still all 0")
-    println(s"lineCount = ${lineCount.value}")
-    println(s"wordCount = ${wordCount.value}")
+    println(s"lineCount = \${lineCount.value}")
+    println(s"wordCount = \${wordCount.value}")
 
     wordCountPairs.cache()
 
@@ -54,8 +54,8 @@ object SparkWordCount {
 
 
     println("third try at printing accumulators: success!")
-    println(s"lineCount = ${lineCount.value}")
-    println(s"wordCount = ${wordCount.value}")
+    println(s"lineCount = \${lineCount.value}")
+    println(s"wordCount = \${wordCount.value}")
 
     println("word count histogram:")
     countHistogram.toIndexedSeq.sortBy{x => -x._1}.zipWithIndex.foreach{println}
@@ -68,10 +68,10 @@ object SparkWordCount {
           totalWords += words
           totalWords < 100
       }.last._1
-    println(s"minCount = $minCount")
+    println(s"minCount = \$minCount")
 
     val topWords = wordCountPairs.filter{ case ( word, counts) => counts >= minCount}.collect()
     topWords.sortBy{x => -x._2}.zipWithIndex
-      .foreach{ case ((word, counts), idx) => println(s"""$idx. "$word" $counts""")}
+      .foreach{ case ((word, counts), idx) => println(s"""\$idx. "\$word" \$counts""")}
   }
 }
