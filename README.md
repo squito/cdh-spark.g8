@@ -1,14 +1,11 @@
 A giter8 template for getting setup with Spark in CDH.
 
-Usage
+Setup
 ====
 
 1. Install [`giter8`](https://github.com/n8han/giter8)
 
 2. Run `g8 squito/cdh-spark` and follow the prompts
-
-3. Compile your code with either sbt (my preference) or mvn.
-    * Incremental compilation by opening an sbt session (`sbt`) then run `~compile`
 
 Run the Example
 ======
@@ -47,10 +44,11 @@ Continuous Compilation With Sbt
 
 1. Open up an sbt session: `sbt`
 
-2. Inside sbt, run `~compile`
+2. Inside sbt, run `~compile`.  Leave the sbt session open.  After the first full compile, you'll see something like `1. Waiting for source changes... (press enter to interrupt)`.
 
-3. Change code (with IntelliJ, vim, emacs, whatever).  Save your code, and watch sbt recompile
-
+3. Change code (with IntelliJ, vim, emacs, whatever).  Save your code, and watch sbt recompile.
 
 Continuous Unit Testing With Sbt
 ------------
+
+(first I need to write an example unit test)
