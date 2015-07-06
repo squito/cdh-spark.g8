@@ -30,7 +30,7 @@ object SparkWordCount {
     val textLines: RDD[String] = sc.textFile(inputFile)
     val words: RDD[String] = textLines.flatMap { line =>
       lineCount += 1
-      val w = line.replaceAll("\\W", " ").split("\\W")
+      val w = line.replaceAll("\\\\W", " ").split("\\\\W")
       wordCount += w.length.toLong
       w
     }
