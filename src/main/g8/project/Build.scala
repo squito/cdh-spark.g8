@@ -34,8 +34,8 @@ object BuildCommons {
   private val buildLocation = file(".").getAbsoluteFile.getParentFile
   val testTempDir = buildLocation + "/target/tmp"
 
-  val allProjects @ Seq(core, examples) = 
-    Seq("core", "examples").map(ProjectRef(buildLocation, _))
+  val allProjects @ Seq(core, examples, spark-local) = 
+    Seq("core", "examples", "spark-local").map(ProjectRef(buildLocation, _))
   val assemblyProjects @ Seq(assembly) =
     Seq("assembly").map(ProjectRef(buildLocation, _))
 

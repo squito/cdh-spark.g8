@@ -20,6 +20,7 @@
   <modules>
     <module>core</module>
     <!-- <module>examples</module> -->
+    <module>spark-local/module>
   </modules>
 
   <properties>
