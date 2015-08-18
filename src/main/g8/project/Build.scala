@@ -76,7 +76,7 @@ object MyBuild extends PomBuild {
       if (major.toInt >= 1 && minor.toInt >= 8) Seq("-Xdoclint:all", "-Xdoclint:-missing") else Seq.empty
     },
 
-    javacOptions in Compile ++= Seq("-encoding", "UTF-8")
+    javacOptions in Compile ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7")
   )
 
   lazy val sparkLocalSettings = sharedSettings ++ Seq(
