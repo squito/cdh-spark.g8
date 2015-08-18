@@ -5,26 +5,26 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.cloudera</groupId>
-    <artifactId>spark_etl_on_tpcds-parent_2.10</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <groupId>$groupId$</groupId>
+    <artifactId>$name$-parent_2.10</artifactId>
+    <version>$version$</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>com.cloudera</groupId>
-  <artifactId>spark_etl_on_tpcds-spark-local_2.10.10</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <groupId>$groupId$</groupId>
+  <artifactId>$name$-spark-local_2.10</artifactId>
+  <version>$version$</version>
 
   <build>
-    <outputDirectory>target/scala-${scala.version}/classes</outputDirectory>
-    <testOutputDirectory>target/scala-${scala.version}/test-classes</testOutputDirectory>
+    <outputDirectory>target/scala-\${scala.version}/classes</outputDirectory>
+    <testOutputDirectory>target/scala-\${scala.version}/test-classes</testOutputDirectory>
   </build>
 
   <dependencies>
     <dependency>
-      <groupId>com.cloudera</groupId>
-      <artifactId>spark_etl_on_tpcds-core_2.10</artifactId>
-      <version>0.1.0-SNAPSHOT</version>
+      <groupId>$groupId$</groupId>
+      <artifactId>$name$-core_2.10</artifactId>
+      <version>$version$</version>
     </dependency>
   </dependencies>
 

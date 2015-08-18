@@ -34,7 +34,7 @@ object BuildCommons {
   private val buildLocation = file(".").getAbsoluteFile.getParentFile
   val testTempDir = buildLocation + "/target/tmp"
 
-  val allProjects @ Seq(core, examples, spark-local) = 
+  val allProjects @ Seq(core, examples, sparkLocal) = 
     Seq("core", "examples", "spark-local").map(ProjectRef(buildLocation, _))
   val assemblyProjects @ Seq(assembly) =
     Seq("assembly").map(ProjectRef(buildLocation, _))
@@ -79,6 +79,11 @@ object MyBuild extends PomBuild {
     javacOptions in Compile ++= Seq("-encoding", "UTF-8")
   )
 
+  lazy val sparkLocalSettings = sharedSettings ++ Seq(
+    // this is so we can still run spark locally for debugging etc, though the jar is provided
+    fullClasspath in Runtime <<= (fullClasspath in Compile)
+  )
+
   def enable(settings: Seq[Setting[_]])(projectRef: ProjectRef) = {
     val existingSettings = projectsMap.getOrElse(projectRef.project, Seq[Setting[_]]())
     projectsMap += (projectRef.project -> (existingSettings ++ settings))
@@ -89,11 +94,13 @@ object MyBuild extends PomBuild {
   (allProjects ++ assemblyProjects)
     .foreach(enable(sharedSettings ++ Revolver.settings))
 
-  /* Enable tests settings for all projects except examples, assembly and tools */
+  /* Enable tests settings for all projects */
   allProjects.foreach(enable(TestSettings.settings))
 
-  /* Enable Assembly for all assembly projects */
-  assemblyProjects.foreach(enable(Assembly.settings))
+  enable(sparkLocalSettings)(sparkLocal)
+
+  /* Enable Assembly for all projects */
+  enable(Assembly.settings)(core)
 
   // TODO: move this to its upstream project.
   override def projectDefinitions(baseDirectory: File): Seq[Project] = {
@@ -114,6 +121,7 @@ object Assembly {
 
   lazy val settings = assemblySettings ++ Seq(
     test in assembly := {},
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false),
     mergeStrategy in assembly := {
       case PathList("org", "datanucleus", xs @ _*)             => MergeStrategy.discard
       case m if m.toLowerCase.endsWith("manifest.mf")          => MergeStrategy.discard
