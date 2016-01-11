@@ -13,7 +13,7 @@ Run the Example
 With Sbt
 ---------
 
-1. Open an sbt session in project "core" : `sbt` \ `project core`
+1. Open an sbt session in project "core" : `sbt` \ `project spark-local`
 
 2. Compile the code: `compile`
 
@@ -21,6 +21,10 @@ With Sbt
   specify an input file, it will just use the "pom.xml" sitting there.  It'll work, but not very
   interesting.)
 
+With Mvn
+---------
+
+Execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
 
 Developing
 ================
@@ -52,3 +56,36 @@ Continuous Unit Testing With Sbt
 ------------
 
 (first I need to write an example unit test)
+
+Packaging Your Code
+===================
+
+You need to create a jar which contains all of your code & dependencies.  However, you also want to make sure
+that your jar does *not* contain jars which are already available on the cluster.  This will help keep the jar
+small, so it is quicker to package and send across the cluster (and also helps avoid confusing errors if
+multiple versions of a library are included on the classpath).
+
+Instructions to build these libraries vary slightly depending on the build tool.  Note that the project here
+has been carefully configured to enable packaging to work this way -- eg., every sbt project won't necessarily
+be able to build a jar like this.
+
+After packaging your jar, you can launch a spark command on your cluster with `spark-submit`; just supply
+your jar to the `--jars` argument.  Eg., 
+
+```
+spark-submit --master yarn --jars my_cool_project-core_2.10-0.1.0-SNAPSHOT.jar com.mycompany.SparkWordCount
+```
+
+With Sbt
+---------
+
+Execute `sbt "project core" assembly`.
+
+With Mvn
+--------
+
+Execute `mvn package`.
+
+This will create a jar like `core/target/my_cool_project-core_2.10-0.1.0-SNAPSHOT.jar`.  
+Add this to your `--jars` argument to `spark-submit` to run your code.
+
