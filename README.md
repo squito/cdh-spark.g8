@@ -73,7 +73,7 @@ After packaging your jar, you can launch a spark command on your cluster with `s
 your jar to the `--jars` argument.  Eg., 
 
 ```
-spark-submit --master yarn --jars my_cool_project-core_2.10-0.1.0-SNAPSHOT.jar com.mycompany.SparkWordCount
+spark-submit --master yarn --jars my_cool_project-core_2.10-0.1.0-SNAPSHOT-jar-with-dependencies.jar com.mycompany.SparkWordCount
 ```
 
 With Sbt
@@ -86,6 +86,6 @@ With Mvn
 
 Execute `mvn package`.
 
-This will create a jar like `core/target/my_cool_project-core_2.10-0.1.0-SNAPSHOT.jar`.  
+This will create a jar like `core/target/my_cool_project-core_2.10-0.1.0-SNAPSHOT-jar-with-dependencies.jar`.
 Add this to your `--jars` argument to `spark-submit` to run your code.
 
