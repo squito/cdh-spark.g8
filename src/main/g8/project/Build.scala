@@ -34,8 +34,8 @@ object BuildCommons {
   private val buildLocation = file(".").getAbsoluteFile.getParentFile
   val testTempDir = buildLocation + "/target/tmp"
 
-  val allProjects @ Seq(core, examples, sparkLocal) = 
-    Seq("core", "examples", "spark-local").map(ProjectRef(buildLocation, _))
+  val allProjects @ Seq(core, examples) =
+    Seq("core", "examples").map(ProjectRef(buildLocation, _))
   val assemblyProjects @ Seq(assembly) =
     Seq("assembly").map(ProjectRef(buildLocation, _))
 
@@ -76,12 +76,11 @@ object MyBuild extends PomBuild {
       if (major.toInt >= 1 && minor.toInt >= 8) Seq("-Xdoclint:all", "-Xdoclint:-missing") else Seq.empty
     },
 
-    javacOptions in Compile ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7")
-  )
+    javacOptions in Compile ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7"),
 
-  lazy val sparkLocalSettings = sharedSettings ++ Seq(
-    // this is so we can still run spark locally for debugging etc, though the jar is provided
-    fullClasspath in Runtime <<= (fullClasspath in Compile)
+    // this lets us run spark apps from within sbt, but still leave it as a "provided" dependency, so its
+    // not bundled into jars.  See http://stackoverflow.com/questions/18838944/how-to-add-provided-dependencies-back-to-run-test-tasks-classpath
+    runMain in Compile <<= Defaults.runMainTask(fullClasspath in Compile, runner in (Compile, run))
   )
 
   def enable(settings: Seq[Setting[_]])(projectRef: ProjectRef) = {
@@ -96,8 +95,6 @@ object MyBuild extends PomBuild {
 
   /* Enable tests settings for all projects */
   allProjects.foreach(enable(TestSettings.settings))
-
-  enable(sparkLocalSettings)(sparkLocal)
 
   /* Enable Assembly for all projects */
   enable(Assembly.settings)(core)
