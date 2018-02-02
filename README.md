@@ -8,7 +8,7 @@ There are two different ways to use this template.
 Using sbt new
 --------------
 
-Run `sbt new squito/cdh-spark.g8` and follow the interactive prompts
+In case of sbt’s launcher version 0.13.13 or above you can run `sbt new squito/cdh-spark.g8` and follow the interactive prompts
 
 Using g8 directly
 -----------------
