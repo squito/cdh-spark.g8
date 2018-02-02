@@ -20,7 +20,6 @@
   <modules>
     <module>core</module>
     <!-- <module>examples</module> -->
-    <module>spark-local</module>
   </modules>
 
   <properties>
@@ -31,43 +30,27 @@
     <CodeCacheSize>512m</CodeCacheSize>
   </properties>
 
-  <dependencyManagement> 
-    <dependencies>
-      <dependency>
-        <groupId>org.scala-lang</groupId>
-        <artifactId>scala-library</artifactId>
-        <version>\${scala.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.spark</groupId>
-        <artifactId>spark-core_2.10</artifactId>
-        <version>$cdh_version$</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.scalatest</groupId>
-        <artifactId>scalatest_2.10</artifactId>
-        <version>2.2.1</version>
-        <scope>test</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement> 
-
   <dependencies>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
+      <version>\${scala.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.10</artifactId>
+      <version>$cdh_version$</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
       <artifactId>scalatest_2.10</artifactId>
+      <version>2.2.1</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
 
   <build>
     <pluginManagement>
