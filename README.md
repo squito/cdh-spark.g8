@@ -3,7 +3,7 @@ A giter8 template for getting setup with Spark in CDH.
 Setup
 =====
 
-There is two different ways to use this template.
+There are two different ways to use this template.
 
 Using sbt new
 --------------
@@ -23,7 +23,7 @@ Run the Example
 With Sbt
 ---------
 
-1. Open an sbt session in project root : `sbt` then select the spark-local project `project spark-local`
+1. Open an sbt session in project root : `sbt` then select the core project `project core`
 
 2. Compile the code: `compile`
 
@@ -33,8 +33,7 @@ With Sbt
 
 With Maven
 ---------
-
-Execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
+After a maven build (at least a `mvn package`) execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
 
 Developing
 ================
@@ -91,8 +90,8 @@ With Sbt
 
 Execute `sbt "project core" assembly`.
 
-With Mvn
---------
+With Maven
+----------
 
 Execute `mvn package`.
 
