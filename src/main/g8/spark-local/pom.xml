@@ -26,6 +26,11 @@
       <artifactId>$name$-core_2.10</artifactId>
       <version>$version$</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_2.10</artifactId>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 
 </project>
