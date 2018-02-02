@@ -33,8 +33,7 @@ With Sbt
 
 With Maven
 ---------
-
-Execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
+After a maven build (at least a `mvn package`) execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
 
 Developing
 ================
