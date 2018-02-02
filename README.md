@@ -1,7 +1,17 @@
 A giter8 template for getting setup with Spark in CDH.
 
 Setup
-====
+=====
+
+There are two different ways to use this template.
+
+Using sbt new
+--------------
+
+In case of sbt’s launcher version 0.13.13 or above you can run `sbt new squito/cdh-spark.g8` and follow the interactive prompts
+
+Using g8 directly
+-----------------
 
 1. Install [`giter8`](https://github.com/n8han/giter8)
 
@@ -13,18 +23,17 @@ Run the Example
 With Sbt
 ---------
 
-1. Open an sbt session in project "core" : `sbt` \ `project spark-local`
+1. Open an sbt session in project root : `sbt` then select the core project `project core`
 
 2. Compile the code: `compile`
 
-3. Run the app: `run-main <your-package>.SparkWordCount local[*] <some input file>`.  (If you don't
+3. Run the app: `runMain <your-package>.SparkWordCount local[*] <some input file>`.  (If you don't
   specify an input file, it will just use the "pom.xml" sitting there.  It'll work, but not very
   interesting.)
 
-With Mvn
+With Maven
 ---------
-
-Execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
+After a maven build (at least a `mvn package`) execute `mvn exec:java -Dexec.classpathScope="compile" -pl core -Dexec.mainClass="<your-package>.SparkWordCount" -Dexec.args="local[*] <some input file>"`
 
 Developing
 ================
@@ -81,8 +90,8 @@ With Sbt
 
 Execute `sbt "project core" assembly`.
 
-With Mvn
---------
+With Maven
+----------
 
 Execute `mvn package`.
 
