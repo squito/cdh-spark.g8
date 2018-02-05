@@ -6,13 +6,13 @@
 
   <parent>
     <groupId>$groupId$</groupId>
-    <artifactId>$name$-parent_2.10</artifactId>
+    <artifactId>$name$-parent_2.11</artifactId>
     <version>$version$</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
   <groupId>$groupId$</groupId>
-  <artifactId>$name$-core_2.10</artifactId>
+  <artifactId>$name$-core_2.11</artifactId>
   <version>$version$</version>
 
   <build>
