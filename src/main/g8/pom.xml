@@ -19,7 +19,6 @@
 
   <modules>
     <module>core</module>
-    <!-- <module>examples</module> -->
   </modules>
 
   <properties>
