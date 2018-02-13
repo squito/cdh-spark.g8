@@ -5,20 +5,26 @@ Setup
 
 There are two different ways to use this template.
 
-Using sbt new
---------------
+Using sbt new (Spark 2)
+-----------------------
 
-In case of sbt’s launcher version 0.13.13 or above you can run `sbt new squito/cdh-spark.g8` and follow the interactive prompts
+In case of sbt’s launcher version 0.13.13 or above you can run `sbt new squito/cdh-spark.g8` and follow the interactive prompts.
 
-Using g8 directly
------------------
+Using g8 directly (Spark 2)
+---------------------------
 
 1. Install [`giter8`](https://github.com/n8han/giter8)
 
 2. Run `g8 squito/cdh-spark` and follow the prompts
 
+
+CDH5 / Spark 1.x
+----------------
+
+For creating a CDH5 / Spark 1.x application a separate branch of this repository can be used: `sbt new squito/cdh-spark.g8 --branch cdh5.x_spark1.x`. 
+
 Run the Example
-======
+===============
 
 With Sbt
 ---------
