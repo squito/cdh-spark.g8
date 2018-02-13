@@ -76,7 +76,7 @@ object MyBuild extends PomBuild {
       if (major.toInt >= 1 && minor.toInt >= 8) Seq("-Xdoclint:all", "-Xdoclint:-missing") else Seq.empty
     },
 
-    javacOptions in Compile ++= Seq("-encoding", "UTF-8", "-source", "1.7", "-target", "1.7"),
+    javacOptions in Compile ++= Seq("-encoding", "UTF-8", "-source", "1.8", "-target", "1.8"),
 
     // this lets us run spark apps from within sbt, but still leave it as a "provided" dependency, so its
     // not bundled into jars.  See http://stackoverflow.com/questions/18838944/how-to-add-provided-dependencies-back-to-run-test-tasks-classpath
