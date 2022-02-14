@@ -5,15 +5,22 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>$groupId$</groupId>
-    <artifactId>$name$-parent_2.12</artifactId>
-    <version>$version$</version>
+    <groupId>com.mycompany</groupId>
+    <artifactId>my_cool_project-parent_2.12</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>$groupId$</groupId>
-  <artifactId>$name$-core_2.12</artifactId>
-  <version>$version$</version>
+  <groupId>com.mycompany</groupId>
+  <artifactId>my_cool_project-iceberg-demo_2.12</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.iceberg</groupId>
+      <artifactId>iceberg-spark-runtime</artifactId>
+    </dependency>
+  </dependencies>
 
   <build>
     <outputDirectory>target/scala-\${scala.version}/classes</outputDirectory>

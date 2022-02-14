@@ -23,6 +23,29 @@ CDH5 / Spark 1.x
 
 For creating a CDH5 / Spark 1.x application a separate branch of this repository can be used: `sbt new squito/cdh-spark.g8 --branch cdh5.x_spark1.x`. 
 
+
+
+Setting up Access to Cloudera Private Maven Repos
+====================
+
+
+Some of the artifacts you need will be in a private cloudera repo, which requires authentication.  You can enable that by creating a `~/.m2/settings.xml` with this (or adding this to your existing one)
+
+```
+<settings>
+  <servers>
+    <server>
+      <id>private-7.2.11.4</id>
+      <username>[your username]</username>
+      <password>[your password]</password>
+    </server>
+  </servers>
+</settings>
+```
+
+Note that the `id` field has to match the `id` for the repository specified in `pom.xml`.  I haven't tried this yet, but I suspect you need to copy those for each releases repo.
+
+
 Run the Example
 ===============
 

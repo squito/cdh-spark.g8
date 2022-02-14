@@ -6,7 +6,7 @@
 
 
   <groupId>$groupId$</groupId>
-  <artifactId>$name$-parent_2.11</artifactId>
+  <artifactId>$name$-parent_2.12</artifactId>
   <version>$version$</version>
   <packaging>pom</packaging>
 
@@ -15,18 +15,39 @@
       <id>cloudera</id>
       <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
     </repository>
+
+
+    <!-- this one requires credentials: https://cloudera.slack.com/archives/CCFB29UL8/p1644873750702119 -->
+    <repository>
+      <id>private-7.2.11.4</id>
+      <url>https://archive.cloudera.com/p/cdp-public/7.2.11.4/maven-repository/</url>
+    </repository>
+	    
+    <!--  This should be temporary ... but we need to figure out to get the hotfix artifacts we depend on published :( -->
+    <repository>
+      <id>gbn-repo-7.2.11.4</id>
+      <url>https://cloudera-build-us-west-1.vpc.cloudera.com/s3/build/19858972/cdh/7.x/maven-repository/</url>
+    </repository>
   </repositories>
 
   <modules>
     <module>core</module>
+    <module>iceberg-demo</module>
   </modules>
 
   <properties>
-    <scala.version>2.11.8</scala.version>
     <java.version>1.8</java.version>
     <PermGen>64m</PermGen>
     <MaxPermGen>512m</MaxPermGen>
     <CodeCacheSize>512m</CodeCacheSize>
+    <cde.version>$cde_version$</cde.version>
+    <spark.version>$spark_version$</spark.version>
+    <!-- big table of cde jar ids -->
+    <cde.114.spark2></cde.114.spark2>
+    <cde.114.spark3>3.1.1.1.14.317211.0-63</cde.114.spark3>
+    <cde.114.iceberg.spark2></cde.114.iceberg.spark2>
+    <cde.114.iceberg.spark3>0.9.1.1.14.317211.0-63</cde.114.iceberg.spark3>
+    <!-- end table of cde jar ids -->
   </properties>
 
   <dependencies>
@@ -38,17 +59,62 @@
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.11</artifactId>
-      <version>$cdh_version$</version>
+      <artifactId>spark-core_\${scala.short.version}</artifactId>
+      <version>\${spark.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.scalatest</groupId>
-      <artifactId>scalatest_2.11</artifactId>
+      <artifactId>scalatest_\${scala.short.version}</artifactId>
       <version>3.0.5</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+	<groupId>org.apache.iceberg</groupId>
+	<artifactId>iceberg-spark-runtime</artifactId>
+	<version>\${iceberg.version}</version>
+	<scope>provided</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <profiles>
+    <profile>
+      <id>cde_1.14_spark_3.1</id>
+      <properties>
+        <spark.version>\${cde.114.spark3}</spark.version>
+	<iceberg.version>\${cde.114.iceberg.spark3}</iceberg.version>
+        <scala.version>2.12.15</scala.version>
+        <scala.short.version>2.12</scala.short.version>
+      </properties>
+      <activation>
+        <property>
+	  <name>default.build.profile</name>
+	  <value>1.14_3.1</value>
+        </property>
+      </activation>
+    </profile>
+
+    <profile>
+      <id>cde_1.14_spark_2.4</id>
+      <properties>
+        <spark.version>\${cde.114.spark2}</spark.version>
+	<iceberg.version>\${cde.114.iceberg.spark2}</iceberg.version>
+        <scala.version>2.11.8</scala.version>
+      </properties>
+      <activation>
+        <property>
+	  <name>default.build.profile</name>
+	  <value>1.14_2.4</value>
+        </property>
+      </activation>
+    </profile>
+
+  </profiles>
 
 
   <build>

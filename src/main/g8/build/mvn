@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+mvn -Ddefault.build.profile=$cde_version$_$spark_version$ "\$@"
